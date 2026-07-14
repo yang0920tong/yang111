@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>倾诉墙 - 帖子</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>倾诉墙</h1>
+      <p><a href="/">← 返回首页</a></p>
+    </header>
+
+    <main>
+      <article class="post-full">
+        <p class="body"><%= post.body %></p>
+        <div class="meta">
+          <button id="like-btn" data-post-id="<%= post.id %>"> <% if (liked) { %>取消点赞<% } else { %>点赞<% } %> </button>
+          <span id="like-count">👍 <%= likes %></span>
+          <span><%= new Date(post.created_at).toLocaleString() %></span>
+        </div>
+      </article>
+
+      <section id="comments">
+        <h2>评论</h2>
+        <% if (comments && comments.length) { %>
+          <ul class="comment-list">
+            <% comments.forEach(function(c) { %>
+              <li class="comment-item">
+                <p><%= c.body %></p>
+                <div class="cmeta"><span><%= new Date(c.created_at).toLocaleString() %></span></div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p>还没有评论，快来第一个回复吧。</p>
+        <% } %>
+
+        <form id="comment-form">
+          <textarea name="body" id="comment-body" rows="3" placeholder="写下你的评论（匿名）"></textarea>
+          <div class="actions">
+            <button type="submit">发表评论</button>
+          </div>
+        </form>
+        <div id="comment-msg" class="msg"></div>
+      </section>
+    </main>
+
+    <script>window.APP = { postId: <%= post.id %>, anonId: "<%= anon_id %>", liked: <%= liked ? 'true' : 'false' %> };</script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>
