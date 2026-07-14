@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>倾诉墙 - 首页</title>
+    <link rel="stylesheet" href="/css/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>倾诉墙</h1>
+      <p>面向有烦恼无处诉说的人群 — 匿名发帖、评论与点赞</p>
+    </header>
+
+    <main>
+      <section id="new-post">
+        <h2>写下一条倾诉</h2>
+        <form id="post-form">
+          <textarea name="body" id="post-body" rows="4" placeholder="说出你的烦恼（支持匿名）"></textarea>
+          <div class="actions">
+            <label><input type="checkbox" name="is_anonymous" checked /> 匿名</label>
+            <button type="submit">发布</button>
+          </div>
+        </form>
+        <div id="post-msg" class="msg"></div>
+      </section>
+
+      <section id="posts">
+        <h2>最新帖子</h2>
+        <% if (posts && posts.length) { %>
+          <ul class="post-list">
+            <% posts.forEach(function(post){ %>
+              <li class="post-item">
+                <p class="body"><a href="/post/<%= post.id %>"><%= post.body.length > 200 ? post.body.substring(0,200) + '...' : post.body %></a></p>
+                <div class="meta">
+                  <span>👍 <%= post.like_count %></span>
+                  <span>💬 <%= post.comment_count %></span>
+                  <span><%= new Date(post.created_at).toLocaleString() %></span>
+                </div>
+              </li>
+            <% }) %>
+          </ul>
+        <% } else { %>
+          <p>还没有人发帖，成为第一个吧。</p>
+        <% } %>
+      </section>
+    </main>
+
+    <script src="/js/main.js"></script>
+  </body>
+</html>
